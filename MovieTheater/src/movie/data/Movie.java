@@ -11,7 +11,13 @@ public class Movie {
 //		this.Info = Info;
 //	}
 
+	
 	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString() {
 		return name;
 	}
 
@@ -30,3 +36,4 @@ public class Movie {
 	
 	
 }
+
