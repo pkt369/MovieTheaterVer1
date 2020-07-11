@@ -13,7 +13,7 @@ public class MovieMain {
 		ct.managerAd = new ManagerAdministrateMovie(ct);
 		ct.theaterAdmini = new insertMovieInTheater(ct);
 		
-		ct.add(ct.managerAd);
+		ct.add(ct.ticketUi);
 		
 		ct.setTitle("영화예매");
 		ct.setSize(1200, 900);
