@@ -190,7 +190,8 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 		if(e.getSource().equals(inputMovie)) {
 			if(movieAgeField.getText().equals("0") || movieAgeField.getText().equals("12")
 					|| movieAgeField.getText().equals("15")|| movieAgeField.getText().equals("19")) {
-				ct.admini.insertMovie(movieNameField.getText(), Integer.parseInt(movieAgeField.getText()));
+				ct.admini.insertMovie(movieNameField.getText(), Integer.parseInt(movieAgeField.getText()), 
+						"a");
 				movieLoding();
 				result.setText("입력 완료!");
 			}else {

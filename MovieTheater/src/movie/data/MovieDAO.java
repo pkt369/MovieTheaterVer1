@@ -26,15 +26,16 @@ public class MovieDAO {
 		ds.setInitialSize(5);
 	}
 	
-	public void insertMovie(String name, int num) {
+	public void insertMovie(String name, int num, String url) {
 		Connection conn = null;
-		String sql = "insert into movies values(?, ?)";
+		String sql = "insert into movies values(?, ?, ?)";
 		PreparedStatement pstmt = null;
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setInt(2, num);
+			pstmt.setString(3, url);
 			
 			int result = pstmt.executeUpdate();
 			
@@ -65,6 +66,7 @@ public class MovieDAO {
 				
 				mov.setName(rs.getString("name"));
 				mov.setAge(rs.getInt("age"));
+				mov.setUrl(rs.getURL("url"));
 				
 				list.add(mov);
 			}

@@ -16,6 +16,8 @@ class FirstUI extends JPanel implements ActionListener{
 	int width = 1200;
 	int height = 900;
 	ControlTower ct;
+	
+	JButton ticketing;
 
 	FirstUI(ControlTower ct){
 		this.ct = ct;
@@ -23,7 +25,7 @@ class FirstUI extends JPanel implements ActionListener{
 		JLabel ad = new JLabel(new ImageIcon("./images/ad.jpg")); //광고
 		ad.setBounds(50, 30, 1100, 400);
 		
-		JButton ticketing = new JButton("예매하기");
+		ticketing = new JButton("예매하기");
 		ticketing.setBounds(50, 450, 550, 350);
 		
 		JButton checking = new JButton();
@@ -52,10 +54,10 @@ class FirstUI extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		this.dispose();
-//		new TicketingUI(ct);
-//		container.removeAll();
-		ct.changePanel("ticketUi");
+		if(e.getSource().equals(ticketing)) {
+			ct.changePanel("ticketUi");
+		}
+		
 	}
 	
 

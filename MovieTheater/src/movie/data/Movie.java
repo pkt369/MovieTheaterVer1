@@ -1,8 +1,11 @@
 package movie.data;
 
+import java.net.URL;
+
 public class Movie {
 	private String name;
 	private int age;
+	private URL url;
 	
 	
 //	Movie(String name, int age, String Info){
@@ -12,6 +15,14 @@ public class Movie {
 //	}
 
 	
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(URL url) {
+		this.url = url;
+	}
+
 	public String getName() {
 		return name;
 	}
