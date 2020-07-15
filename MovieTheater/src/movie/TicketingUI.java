@@ -3,11 +3,14 @@ package movie;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,6 +31,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import movie.data.Movie;
 import movie.data.MovieDAO;
+import movie.data.theater;
 
 public class TicketingUI extends JPanel implements ListSelectionListener{
 	int width = 1200;
@@ -34,6 +39,7 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 	ControlTower ct;
 	
 	Font f1 = new Font("맑은 돋움", Font.BOLD, 30);
+	Font f2 = new Font("맑은 돋움", Font.BOLD, 22);
 	Color c1 = new Color(233,235,209);
 	MovieDAO movieControll = new MovieDAO();
 	
@@ -41,6 +47,11 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 	String[] movieName;
 	int[] movieAge;
 	URL[] movieUrl;
+	
+	ArrayList<theater> theaterList = null;
+	String[] city;
+	String[] TheaterName;
+	String[] day;
 
 	private final Map<String, ImageIcon> ageImageMap;
 	
@@ -50,6 +61,13 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 	Image img;
 	JLabel pickName;
 	JLabel th; JLabel da; JLabel au;
+	JLabel pickTh; JLabel pickDa; JLabel pickAu;
+	JButton area;
+	JList<String> thList;  JScrollPane thPane;
+	String[] thstring = {"종로점", "서울역"};
+	JList<String> dayList; JScrollPane dayPane;
+	JButton[] timeBu;
+	
 	
 	
 	TicketingUI(ControlTower ct){
@@ -67,6 +85,28 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 			movieUrl[i] = movieList.get(i).getUrl();
 		}
 		
+		//극장정보 가져오기
+		theaterList = ct.thAdmini.selectTheater();
+		city = new String[theaterList.size()];
+		TheaterName = new String[theaterList.size()];
+		day = new String[theaterList.size()];
+		for(int i = 0; i < theaterList.size(); i++) {
+			city[i] = theaterList.get(i).getCity();
+			TheaterName[i] = theaterList.get(i).getTheaterName();
+			day[i] = theaterList.get(i).getDay();
+		}
+		
+		
+		
+		//날짜 세팅
+		SimpleDateFormat format = new SimpleDateFormat("MM월dd일");
+		String[] date = new String[10];
+		for(int i = 0; i < date.length; i++) {
+			Calendar time = Calendar.getInstance();
+			time.add(Calendar.DATE, i);
+			date[i] = format.format(time.getTime());
+		}
+		
 		ageImageMap = createAgeMap(movieAge, movieName); //영화나이에 관한 이미지 삽입		
 
 		//선언하기
@@ -81,25 +121,64 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 			e.printStackTrace();
 		}
 		pickImage = new JLabel();
+		pickName = new JLabel();
+		th = new JLabel("극장");
+		da = new JLabel("일시");
+		au = new JLabel("상영관");
+		pickTh = new JLabel("");
+		pickDa = new JLabel("");
+		pickAu = new JLabel("");
+		area = new JButton("서울");
+		thList = new JList<String>(thstring);
+		thPane = new JScrollPane(thList);
+		dayList = new JList<String>(date);
+		dayPane = new JScrollPane(dayList);
+		
 		
 		//위치 지정
 		jpMovie.setBounds(30, 70, 300, 500);
 		back.setBounds(0, 0, width, 50);
 		blackBack.setBounds(0, 620, width, 280);
-		pickImage.setBounds(60, 630, 150, 200);
+		pickImage.setBounds(35, 610, 170, 250);
+		pickName.setBounds(230, 650, 250, 50);
+		th.setBounds(500, 650, 250, 50);
+		da.setBounds(500, 700, 250, 50);
+		au.setBounds(500, 750, 250, 50);
+		pickTh.setBounds(580, 650, 250, 50);
+		pickDa.setBounds(580, 700, 250, 50);
+		pickAu.setBounds(580, 750, 250, 50);
+		area.setBounds(380, 100, 120, 50);
+		thPane.setBounds(520, 100, 130, 500);
+		dayPane.setBounds(670, 100, 110, 500);
 		
-		//이미지 크기 조정
 		
 		
 		//폰트 지정
 		jlMovie.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		pickName.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		th.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		da.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		au.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		pickTh.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		pickDa.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		pickAu.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		area.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		thList.setFont(new Font("맑은 고딕", Font.BOLD, 23));
+		dayList.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		
 		
 		//배경 지정
 		jlMovie.setBackground(c1);
-		blackBack.setBackground(new Color(0, 0, 0));
+		blackBack.setBackground(new Color(40, 40, 40));
+		area.setBackground(c1);
+		thList.setBackground(c1);
+		dayList.setBackground(c1);
+		
 		
 		//효과 지정
 		jlMovie.addListSelectionListener(this);
+		thList.addListSelectionListener(this);
+		dayList.addListSelectionListener(this);
 		
 		//나머지 지정
 		jlMovie.setCellRenderer(new MovieRender());
@@ -113,17 +192,42 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		        this.thumbColor = new Color(124,124,124);
 			}
 		});
+		area.setHorizontalAlignment(JLabel.RIGHT);
+		thPane.setBorder(null);
+		thPane.getVerticalScrollBar().setBackground(c1); //가로세로 스크롤바 배경변경
+		thPane.getHorizontalScrollBar().setBackground(c1);
+		thPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() { 
+			protected void configureScrollBarColors() {
+		        this.thumbColor = new Color(124,124,124);
+			}
+		});
+		dayPane.setBorder(null);
 		
-//		UIManager.getLookAndFeelDefaults().put( "ScrollBar:\"ScrollBar.button\".size", 0);
-//		UIManager.getLookAndFeelDefaults().put("ScrollBar.decrementButtonGap", 0);
-//		UIManager.getLookAndFeelDefaults().put( "ScrollBar.incrementButtonGap", 0);
 		
+		
+		//폰트 색깔 지정
+		pickName.setForeground(new Color(255, 255, 255));
+		th.setForeground(new Color(255, 255, 255));
+		da.setForeground(new Color(255, 255, 255));
+		au.setForeground(new Color(255, 255, 255));
+		pickTh.setForeground(new Color(255, 255, 255));
+		pickDa.setForeground(new Color(255, 255, 255));
+		pickAu.setForeground(new Color(255, 255, 255));
 		
 		//추가하기
 		add(pickImage);
-		
+		add(pickName);
+		add(th);
+		add(da);
+		add(au);
+		add(pickTh);
+		add(pickDa);
+		add(pickAu);
+		add(area);
+		add(thPane);		
 		add(back);
 		add(jpMovie);
+		add(dayPane);
 		
 		add(blackBack);
 		//백그라운드
@@ -161,20 +265,29 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()) {
+			pickTh.setText(thList.getSelectedValue());
+			pickDa.setText(dayList.getSelectedValue());
+			 
 			for(int i = 0; i < movieName.length; i++) {
 				if(movieName[i].equals(jlMovie.getSelectedValue())) {
 					try {
 						img = ImageIO.read(movieUrl[i]);
-						pickImage.setIcon(imageSetSize(img, 150, 200));
+						pickImage.setIcon(imageSetSize(img, 170, 250));
+						pickName.setText(movieName[i]);
+						break;
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
 			}
+			if(!(pickName.getText() == null) && !(pickTh.getText() == null) &&
+					!(pickDa.getText() == null)) {
+				 for(int i = 0; i < movieName.length; i++) { //영화비교
+					
+				 }
+			}
 		}
-		
-		
 	}
 }
 
