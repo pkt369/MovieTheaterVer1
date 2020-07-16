@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -33,7 +35,7 @@ import movie.data.Movie;
 import movie.data.MovieDAO;
 import movie.data.theater;
 
-public class TicketingUI extends JPanel implements ListSelectionListener{
+public class TicketingUI extends JPanel implements ListSelectionListener, ActionListener{
 	int width = 1200;
 	int height = 900;
 	ControlTower ct;
@@ -133,6 +135,10 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		thPane = new JScrollPane(thList);
 		dayList = new JList<String>(date);
 		dayPane = new JScrollPane(dayList);
+		timeBu = new JButton[16];
+		for(int i = 0; i < timeBu.length; i++) {
+			timeBu[i] = new JButton();
+		}
 		
 		
 		//위치 지정
@@ -150,6 +156,9 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		area.setBounds(380, 100, 120, 50);
 		thPane.setBounds(520, 100, 130, 500);
 		dayPane.setBounds(670, 100, 110, 500);
+		for(int i = 0; i < timeBu.length; i++) {
+			timeBu[i].setBounds(820 + ((i % 2) * 190), 100 + (i / 2)* 60, 160, 40);
+		}
 		
 		
 		
@@ -165,6 +174,9 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		area.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 		thList.setFont(new Font("맑은 고딕", Font.BOLD, 23));
 		dayList.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+		for(int i = 0; i < timeBu.length; i++) {
+			timeBu[i].setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		}
 		
 		
 		//배경 지정
@@ -173,12 +185,17 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		area.setBackground(c1);
 		thList.setBackground(c1);
 		dayList.setBackground(c1);
-		
+		for(int i = 0; i < timeBu.length; i++) {
+			timeBu[i].setBackground(c1);
+		}
 		
 		//효과 지정
 		jlMovie.addListSelectionListener(this);
 		thList.addListSelectionListener(this);
 		dayList.addListSelectionListener(this);
+		for(int i = 0; i < timeBu.length; i++) {
+			timeBu[i].addActionListener(this);
+		}
 		
 		//나머지 지정
 		jlMovie.setCellRenderer(new MovieRender());
@@ -203,6 +220,11 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		});
 		dayPane.setBorder(null);
 		
+		//관 + 시간 버튼 텍스트 없을때 안보이게 하기
+		for(int i = 0; i < timeBu.length; i++) {
+			 timeBu[i].setVisible(false);
+		 }
+		 
 		
 		
 		//폰트 색깔 지정
@@ -228,6 +250,9 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 		add(back);
 		add(jpMovie);
 		add(dayPane);
+		for(int i = 0; i < timeBu.length; i++) {
+			add(timeBu[i]);
+		}
 		
 		add(blackBack);
 		//백그라운드
@@ -265,6 +290,8 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()) {
+			int co = 0;
+			pickAu.setText("");
 			pickTh.setText(thList.getSelectedValue());
 			pickDa.setText(dayList.getSelectedValue());
 			 
@@ -283,11 +310,39 @@ public class TicketingUI extends JPanel implements ListSelectionListener{
 			}
 			if(!(pickName.getText() == null) && !(pickTh.getText() == null) &&
 					!(pickDa.getText() == null)) {
-				 for(int i = 0; i < movieName.length; i++) { //영화비교
+				 for(int i = 0; i < theaterList.size(); i++) { //비교는 예약과만 비교를 하면된다.
+					if(pickName.getText().equals(theaterList.get(i).getMovie()) &&
+							pickTh.getText().equals(theaterList.get(i).getTheaterName()) && 
+							pickDa.getText().equals(theaterList.get(i).getDay())) {
+						
+						timeBu[co].setText(theaterList.get(i).getAuditorium()+ " " +
+								theaterList.get(i).getStartTime());
+						co++;
+						
+					}
 					
+				 }
+				
+				 //예약과 비교가 끝난다면 버튼 생성
+				 for(int i = 0; i < timeBu.length; i++) {
+					 timeBu[i].setVisible(false);
+				 }
+				 for(int i = 0; i < co; i++) {
+					 timeBu[i].setVisible(true);
 				 }
 			}
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(int i = 0; i < timeBu.length; i++) {
+			if(e.getSource().equals(timeBu[i])) {
+				pickAu.setText(timeBu[i].getText());
+			}
+		}
+		
+		
 	}
 }
 
