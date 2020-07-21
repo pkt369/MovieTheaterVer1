@@ -6,10 +6,13 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.LayoutFocusTraversalPolicy;
+import javax.swing.border.MatteBorder;
 
 public class Auditorium extends JPanel implements ActionListener{
 	ControlTower ct;
@@ -21,6 +24,13 @@ public class Auditorium extends JPanel implements ActionListener{
 	//선언하기
 	JLabel adultText, childText, PreferentialText;
 	JButton[] numBu;
+	JLabel pickImage; JLabel pickMovie; JLabel TheaterName; JLabel day;
+	JLabel pickAu; JLabel seatsLeft;
+	JLabel time;
+	
+	JLabel[] alpha;
+	JButton[] seat;
+	
 	
 	
 	
@@ -66,6 +76,47 @@ public class Auditorium extends JPanel implements ActionListener{
 		//추가하기
 		add(adultText);add(childText);add(PreferentialText);
 		
+		//오른쪽 극장영화시간정보
+		//선언은 ticketUI의 정보를 받아옴
+		pickImage = new JLabel();
+		pickMovie = new JLabel();
+		TheaterName = new JLabel();
+		day = new JLabel();
+		pickAu = new JLabel();
+		seatsLeft = new JLabel();
+		time = new JLabel();
+		
+		pickImage.setBounds(570, 20, 120, 180);
+		pickMovie.setBounds(700, 40, 160, 50); 
+		TheaterName.setBounds(860, 40, 120, 50);
+		day.setBounds(860, 80, 1000, 50);
+		pickAu.setBounds(700, 80, 50, 50);
+		time.setBounds(760, 80, 100, 50);
+		
+		pickImage.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		pickMovie.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		TheaterName.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		day.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		pickAu.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		time.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		
+		add(pickImage);add(pickMovie);add(TheaterName);add(day);add(pickAu);add(seatsLeft);
+		add(time);
+		
+		//좌석 배치
+		
+		alpha = new JLabel[11];
+		for(int i = 0; i < 11; i++) {
+			char ch = (char)(65 + i);
+			alpha[i] = new JLabel(String.valueOf(ch), JLabel.CENTER); //알파벳생성
+			alpha[i].setBounds(40, 260 + (i % 11 * 43), 40, 40);
+			alpha[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
+			alpha[i].setBorder(new MatteBorder(1,0,0,0,Color.black));
+			add(alpha[i]);
+		}
+		
+		seat = new JButton[300];
+		makeSeat();
 		
 		add(background);
 	}
@@ -103,60 +154,30 @@ public class Auditorium extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void checkColor(JButton[] bu) {
-//		if(bu.getBackground().equals(new Color(242,240,228))) {
-//			
-//		}
+	public void makeSeat() {
+		for(int i = 0; i < 220; i++) {
+			
+			seat[i] = new JButton(new ImageIcon("./images/number/" + Integer.toString(i % 20 + 1) + ".PNG"));
+			if(i % 20 < 5) {
+				seat[i].setBounds(95 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+			}else if(i % 20 < 15) {
+				seat[i].setBounds(125 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+			}else {
+				seat[i].setBounds(155 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+			}
+			
+			if((i >= 200 && i < 205) || (i >= 215 && i < 220)) {
+				seat[i].setVisible(false);
+			}
+				
+				
+			seat[i].setBorderPainted(false);
+			seat[i].setBackground(new Color(247,247,239));
+			//seat[i].setFont(new Font("Consolas", Font.PLAIN, 10));
+			add(seat[i]);
+			
+			
+			
+		}
 	}
 }
-//효과 지정
-		/*
-		 * pickImage = ct.pickMovieInfo[0]; pickName = ct.pickMovieInfo[1]; pickTh =
-		 * ct.pickMovieInfo[2]; pickDa = ct.pickMovieInfo[3]; pickAu =
-		 * ct.pickMovieInfo[4];
-		 */
-/*
- * //선언하기
-	JLabel pickImage;
-	JLabel pickName;
-	JLabel th; JLabel da; JLabel au;
-	JLabel pickTh; JLabel pickDa; JLabel pickAu;
-	JButton pickSeatButton;
-	//선언하기
-	pickImage = new JLabel();
-	pickName = new JLabel();
-	th = new JLabel("극장");
-	da = new JLabel("일시");
-	au = new JLabel("상영관");
-	pickTh = new JLabel("");
-	pickDa = new JLabel("");
-	pickAu = new JLabel("");
-	pickSeatButton = new JButton(ct.imageSetSize(
-			new ImageIcon("./images/pickSeatButton.PNG"), 180, 180));
- * //위치 지정 pickImage.setBounds(35, 635, 170, 205); pickName.setBounds(230, 650,
- * 250, 50); th.setBounds(500, 650, 250, 50); da.setBounds(500, 700, 250, 50);
- * au.setBounds(500, 750, 250, 50); pickTh.setBounds(580, 650, 250, 50);
- * pickDa.setBounds(580, 700, 250, 50); pickAu.setBounds(580, 750, 250, 50);
- * pickSeatButton.setBounds(970, 650, 180, 180);
- * 
- * //폰트 지정 th.setFont(new Font("맑은 고딕", Font.BOLD, 20)); da.setFont(new
- * Font("맑은 고딕", Font.BOLD, 20)); au.setFont(new Font("맑은 고딕", Font.BOLD, 20));
- * pickTh.setFont(new Font("맑은 고딕", Font.BOLD, 22)); pickDa.setFont(new
- * Font("맑은 고딕", Font.BOLD, 22)); pickAu.setFont(new Font("맑은 고딕", Font.BOLD,
- * 22));
- * 
- * //폰트 색상 지정 pickName.setForeground(new Color(255, 255, 255));
- * th.setForeground(new Color(255, 255, 255)); da.setForeground(new Color(255,
- * 255, 255)); au.setForeground(new Color(255, 255, 255));
- * pickTh.setForeground(new Color(255, 255, 255)); pickDa.setForeground(new
- * Color(255, 255, 255)); pickAu.setForeground(new Color(255, 255, 255));
- * 
- * //배경 지정 pickSeatButton.setBackground(new Color(40, 40, 40));
- * 
- * //효과 지정 pickSeatButton.addActionListener(this);
- * 
- * //나머지 지정 pickSeatButton.setBorder(null);
- * 
- * //추가하기 add(pickImage); add(pickName); add(th); add(da); add(au); add(pickTh);
- * add(pickDa); add(pickAu); add(pickSeatButton);
- */

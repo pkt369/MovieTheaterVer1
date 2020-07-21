@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +24,6 @@ public class ControlTower extends JFrame{
 	public TheaterDAO thAdmini = new TheaterDAO();
 	public ArrayList<theater> thList = new ArrayList<theater>();
 	public String panelName = null;
-	public JLabel[] pickMovieInfo = new JLabel[5];
 	
 	
 	//화면들
@@ -31,7 +31,7 @@ public class ControlTower extends JFrame{
 	TicketingUI ticketUi;
 	ManagerAdministrateMovie managerAd;
 	insertMovieInTheater theaterAdmini;
-	Auditorium auditorium;
+	public Auditorium auditorium;
 
 	
 	ControlTower(){
@@ -93,4 +93,6 @@ public class ControlTower extends JFrame{
 		ImageIcon reimg = new ImageIcon(img);
 		return reimg;
 	}
+	
+	
 }

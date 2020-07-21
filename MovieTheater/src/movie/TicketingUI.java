@@ -360,11 +360,13 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 				jt.setFont(new Font("맑은 고딕", Font.PLAIN, 22));
 				JOptionPane.showMessageDialog(null, jt);
 			}else{
-				ct.pickMovieInfo[0] = pickImage;
-				ct.pickMovieInfo[1] = pickName;
-				ct.pickMovieInfo[2] = pickTh;
-				ct.pickMovieInfo[3] = pickDa;
-				ct.pickMovieInfo[4] = pickAu;
+				ct.auditorium.pickImage.setIcon(ct.imageSetSize(img, 100, 120));
+				ct.auditorium.pickMovie.setText(pickName.getText());
+				ct.auditorium.TheaterName.setText(pickTh.getText());
+				ct.auditorium.day.setText(pickDa.getText());
+				ct.auditorium.pickAu.setText(pickAu.getText().substring(0, 2));
+				ct.auditorium.time.setText(pickAu.getText().
+						substring(pickAu.getText().lastIndexOf(" ") + 1));
 				ct.changePanel("auditorium");	
 			}
 		}
