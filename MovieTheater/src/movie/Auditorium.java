@@ -26,13 +26,14 @@ public class Auditorium extends JPanel implements ActionListener{
 	
 	//선언하기
 	JLabel adultText, childText, PreferentialText;
-	JButton[] numBu;
+	JButton[] numBu; int pickCount = 0;
 	JLabel pickImage; JLabel pickMovie; JLabel TheaterName; JLabel day;
-	JLabel pickAu; JLabel seatsLeft;
+	JLabel pickAu; JLabel seatsLeft; JLabel pickSeat;
 	JLabel time;
 	
 	JLabel[] alpha;
 	JButton[] seat;
+	ImageIcon reservation, already, number;
 
 	
 	Auditorium(ControlTower ct){
@@ -87,6 +88,7 @@ public class Auditorium extends JPanel implements ActionListener{
 		pickAu = new JLabel();
 		seatsLeft = new JLabel();
 		time = new JLabel();
+		pickSeat = new JLabel("선택한 좌석: ");
 		
 		pickImage.setBounds(570, 20, 120, 180);
 		pickMovie.setBounds(700, 40, 160, 50); 
@@ -95,6 +97,7 @@ public class Auditorium extends JPanel implements ActionListener{
 		pickAu.setBounds(700, 80, 50, 50);
 		time.setBounds(760, 80, 100, 50);
 		seatsLeft.setBounds(960, 40, 200, 50);
+		pickSeat.setBounds(700, 120, 500, 50);
 		
 		pickImage.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		pickMovie.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -103,9 +106,10 @@ public class Auditorium extends JPanel implements ActionListener{
 		pickAu.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		time.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		seatsLeft.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		pickSeat.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		
 		add(pickImage);add(pickMovie);add(TheaterName);add(day);add(pickAu);add(seatsLeft);
-		add(time);
+		add(time);add(pickSeat);
 		
 		//좌석 배치
 		
@@ -121,14 +125,50 @@ public class Auditorium extends JPanel implements ActionListener{
 		
 		seat = new JButton[300];
 		makeSeat();
+		reservation = new ImageIcon("./images/number/reservation.PNG");
+		already = new ImageIcon("./images/number/already.PNG");
 		
 		add(background);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		for(int i = 0; i < seat.length; i++) {
+			if(e.getSource().equals(seat[i])) {
+				char ch = (char)(65 + i / 20);
+				if(pickCount > 0 && !seat[i].getIcon().equals(reservation) &&
+						!seat[i].getIcon().equals(already)) {
+					seat[i].setIcon(reservation);
+					pickCount--;
+					//선택한 좌석 글로 보여주기
+					pickSeat.setText(pickSeat.getText() + String.valueOf(ch) + (i % 20 + 1) + " ");
+					
+				}else if(seat[i].getIcon().equals(reservation)) {
+					seat[i].setIcon(new ImageIcon("./images/number/" + Integer.toString(i % 20 + 1) + ".PNG"));
+					pickCount++;
+					//선택 없앤 좌석 없애기
+					String addSeat = "";
+					String[] splitSeat = pickSeat.getText().split(" ");
+					for(int j = 0; j < splitSeat.length; j++) {
+						if((String.valueOf(ch) + (i % 20 + 1)).equals(splitSeat[j])) {
+							continue;
+						}
+						addSeat += (splitSeat[j] + " ");
+						pickSeat.setText(addSeat);
+					}
+					
+				}
+				return;
+			}
+		}
 		for(int i = 0; i < numBu.length; i++) {
 			if(e.getSource().equals(numBu[i])) {
+				pickSeat.setText("선택한 좌석: ");
+				pickCount = 0;
+				for(int j = 0; j < 220; j++) {
+					seat[j].setIcon(new ImageIcon("./images/number/" + 
+				Integer.toString(j % 20 + 1) + ".PNG"));		
+				}
 				//어른, 아이, 우대 3개로 나누기
 				if(i / 9 == 0) { //어른
 					for(int j = 0; j < 9; j++) {
@@ -153,9 +193,18 @@ public class Auditorium extends JPanel implements ActionListener{
 					numBu[i].setForeground(Color.white);
 				}
 				
-					
 			}	
+			
 		}
+		
+		for(int i = 0; i < numBu.length; i++) {
+			if(numBu[i].getBackground().equals(Color.black)) {
+				//선택할 수 있는 카운트 정하기
+				pickCount += Integer.parseInt(numBu[i].getText());
+				
+			}
+		}
+		
 	}
 	
 	public void makeSeat() {
@@ -174,14 +223,38 @@ public class Auditorium extends JPanel implements ActionListener{
 				seat[i].setVisible(false);
 			}
 				
-				
+			seat[0].setEnabled(true);	
 			seat[i].setBorderPainted(false);
 			seat[i].setBackground(new Color(247,247,239));
+			seat[i].addActionListener(this);
 			//seat[i].setFont(new Font("Consolas", Font.PLAIN, 10));
 			add(seat[i]);
 			
 			
 			
 		}
+	}
+	
+	public void numBuColorReset() {		
+		for(int j = 0; j < 9; j++) {
+			numBu[j].setBackground(weakBack);
+			numBu[j].setForeground(Color.black);
+		}
+		numBu[0].setBackground(Color.black);
+		numBu[0].setForeground(Color.white);
+				
+		for(int j = 9; j < 18; j++) {
+			numBu[j].setBackground(weakBack);
+			numBu[j].setForeground(Color.black);
+		}
+		numBu[9].setBackground(Color.black);
+		numBu[9].setForeground(Color.white);
+		
+		for(int j = 18; j < 27; j++) {
+			numBu[j].setBackground(weakBack);
+			numBu[j].setForeground(Color.black);
+		}
+		numBu[18].setBackground(Color.black);
+		numBu[18].setForeground(Color.white);		
 	}
 }
