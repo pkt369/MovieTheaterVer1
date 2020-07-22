@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -13,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.border.MatteBorder;
+
+import movie.data.theater;
 
 public class Auditorium extends JPanel implements ActionListener{
 	ControlTower ct;
@@ -30,14 +33,13 @@ public class Auditorium extends JPanel implements ActionListener{
 	
 	JLabel[] alpha;
 	JButton[] seat;
-	
-	
-	
+
 	
 	Auditorium(ControlTower ct){
 		this.ct = ct;
 		setLayout(null);
 		
+
 		//백그라운드
 		background = new JLabel(ct.imageSetSize(
 				new ImageIcon("./images/SeatBackground.PNG"), 1200, 900));
@@ -92,6 +94,7 @@ public class Auditorium extends JPanel implements ActionListener{
 		day.setBounds(860, 80, 1000, 50);
 		pickAu.setBounds(700, 80, 50, 50);
 		time.setBounds(760, 80, 100, 50);
+		seatsLeft.setBounds(960, 40, 200, 50);
 		
 		pickImage.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		pickMovie.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -99,6 +102,7 @@ public class Auditorium extends JPanel implements ActionListener{
 		day.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		pickAu.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		time.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		seatsLeft.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		
 		add(pickImage);add(pickMovie);add(TheaterName);add(day);add(pickAu);add(seatsLeft);
 		add(time);
@@ -109,7 +113,7 @@ public class Auditorium extends JPanel implements ActionListener{
 		for(int i = 0; i < 11; i++) {
 			char ch = (char)(65 + i);
 			alpha[i] = new JLabel(String.valueOf(ch), JLabel.CENTER); //알파벳생성
-			alpha[i].setBounds(40, 260 + (i % 11 * 43), 40, 40);
+			alpha[i].setBounds(20, 260 + (i % 11 * 43), 40, 40);
 			alpha[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
 			alpha[i].setBorder(new MatteBorder(1,0,0,0,Color.black));
 			add(alpha[i]);
@@ -159,11 +163,11 @@ public class Auditorium extends JPanel implements ActionListener{
 			
 			seat[i] = new JButton(new ImageIcon("./images/number/" + Integer.toString(i % 20 + 1) + ".PNG"));
 			if(i % 20 < 5) {
-				seat[i].setBounds(95 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+				seat[i].setBounds(75 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
 			}else if(i % 20 < 15) {
-				seat[i].setBounds(125 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+				seat[i].setBounds(105 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
 			}else {
-				seat[i].setBounds(155 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
+				seat[i].setBounds(135 + (i % 20 * 42), 260 + (i / 20 * 43), 40, 40);
 			}
 			
 			if((i >= 200 && i < 205) || (i >= 215 && i < 220)) {

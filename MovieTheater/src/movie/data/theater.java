@@ -7,6 +7,7 @@ public class theater {
 	String day;
 	String startTime;
 	String auditorium;
+	String sellSeats;
 	
 
 	public String getCity() {
@@ -56,5 +57,14 @@ public class theater {
 	public void setAuditorium(String auditorium) {
 		this.auditorium = auditorium;
 	}
+
+	public String getSellSeats() {
+		return sellSeats;
+	}
+
+	public void setSellSeats(String sellSeats) {
+		this.sellSeats = sellSeats;
+	}
+	
 	
 }

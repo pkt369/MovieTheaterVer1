@@ -14,7 +14,7 @@ public class MovieMain {
 		ct.theaterAdmini = new insertMovieInTheater(ct);
 		ct.auditorium = new Auditorium(ct);
 		
-		ct.add(ct.firstUi);
+		ct.add(ct.ticketUi);
 		
 		ct.setTitle("영화예매");
 		ct.setSize(1200, 900);

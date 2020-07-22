@@ -29,7 +29,7 @@ public class TheaterDAO {
 	public void insertTheater(String city, String TheaterName, String movie, String day,
 			String startTime, String auditorium) {
 		Connection conn = null;
-		String sql = "insert into theater values(?, ?, ?, ?, ?, ?)";
+		String sql = "insert into theater values(?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement pstmt = null;
 		try {
 			conn = ds.getConnection();
@@ -40,6 +40,7 @@ public class TheaterDAO {
 			pstmt.setString(4, day);
 			pstmt.setString(5, startTime);
 			pstmt.setString(6, auditorium);
+			pstmt.setString(7, null);
 			
 			int result = pstmt.executeUpdate();
 			
@@ -74,6 +75,7 @@ public class TheaterDAO {
 				mov.setDay(rs.getString("day"));
 				mov.setStartTime(rs.getString("startTime"));
 				mov.setAuditorium(rs.getString("auditorium"));
+				mov.setSellSeats(rs.getString("sellSeats"));
 				
 				list.add(mov);
 			}
@@ -99,17 +101,18 @@ public class TheaterDAO {
 			}
 		}
 		if(count == 0) {
-//			System.out.println("같은 이름 없음");
 			return;
 		}
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "delete from theater where movie = ?";
+		String sql = "delete from theater where movie = ? AND day = ? AND startTime = ?";
 		
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, movie);
+			pstmt.setString(2, day);
+			pstmt.setString(3, time);
 			
 			pstmt.executeUpdate();
 			

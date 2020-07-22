@@ -2,14 +2,10 @@ package movie;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -20,20 +16,16 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.tools.Tool;
 
 import movie.data.Movie;
 import movie.data.MovieDAO;
@@ -367,6 +359,30 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 				ct.auditorium.pickAu.setText(pickAu.getText().substring(0, 2));
 				ct.auditorium.time.setText(pickAu.getText().
 						substring(pickAu.getText().lastIndexOf(" ") + 1));
+				
+
+				for(int i = 0; i < ct.thList.size(); i++) {
+					if(ct.thList.get(i).getMovie().equals(pickName.getText()) &&
+							ct.thList.get(i).getDay().equals(pickDa.getText()) &&
+							ct.thList.get(i).getStartTime().equals(pickAu.getText().
+									substring(pickAu.getText().lastIndexOf(" ") + 1))) {
+						if(pickAu.getText().substring(0, 2).equals("1관") ||
+								pickAu.getText().substring(0, 2).equals("2관") ||
+								pickAu.getText().substring(0, 2).equals("3관")) {
+							
+							String beforeSt = ct.thList.get(i).getSellSeats();
+							if(beforeSt == null) {
+								ct.auditorium.seatsLeft.setText("남은 좌석 : 293 / 293");
+								break;
+							}
+							String[] st = new String[beforeSt.length() / 3];
+							for(int j = 0; j < beforeSt.length() / 3; j++) {	
+								st[j] = beforeSt.substring(j*3, j*3+2);
+							}
+							ct.auditorium.seatsLeft.setText("남은 좌석 : " + Integer.toString(293 - beforeSt.length() / 3) + " / 293");
+						}
+					}
+				}
 				ct.changePanel("auditorium");	
 			}
 		}

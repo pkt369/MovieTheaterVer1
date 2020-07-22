@@ -21,9 +21,12 @@ create table theater(
 	movie 		varchar2(50),
 	day			varchar2(12),
 	startTime 	varchar2(10),
-	auditorium	varchar2(5)
+	auditorium	varchar2(5),
+	sellSeats 	varchar2(600);
 );
 
 select * from theater;
+
+alter table  theater add sellSeats varchar2(600);
 
 drop table theater purge;
