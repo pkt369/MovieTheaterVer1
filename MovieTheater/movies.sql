@@ -4,7 +4,7 @@ create table movies(
 	url varchar2(200)
 );
 
-alter table movies add url varchar2(200);
+insert into MOVIES(name, age, url) values ('프랑스여자',  15, 'https://movie-phinf.pstatic.net/20200515_262/1589519519892tStin_JPEG/movie_image.jpg?type=f67');
 
 alter table movies rename column imageURL to url;
 
