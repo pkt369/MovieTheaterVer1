@@ -194,6 +194,7 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 						"a");
 				movieLoding();
 				result.setText("입력 완료!");
+				ct.changePanel("theaterAdmini");
 			}else {
 				result.setText("나이를 정확히 입력해주세요");
 			}
@@ -203,6 +204,7 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 			ct.admini.deleteMovie(findMovie);
 			movieLoding();
 			result.setText("삭제 완료");
+			ct.changePanel("theaterAdmini"); //임시
 		}
 		
 		if(e.getSource().equals(AddMinMovie)) {

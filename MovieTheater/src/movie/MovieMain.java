@@ -12,6 +12,7 @@ public class MovieMain {
 		ct.ticketUi = new TicketingUI(ct);
 		ct.managerAd = new ManagerAdministrateMovie(ct);
 		ct.theaterAdmini = new insertMovieInTheater(ct);
+		ct.auditorium = new Auditorium(ct);
 		
 		ct.add(ct.firstUi);
 		

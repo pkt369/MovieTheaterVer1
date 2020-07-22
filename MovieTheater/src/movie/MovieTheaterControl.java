@@ -1,5 +1,0 @@
-package movie;
-
-class MovieTheaterControl {
-	
-}
