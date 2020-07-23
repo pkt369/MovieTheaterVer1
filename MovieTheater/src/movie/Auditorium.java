@@ -34,6 +34,8 @@ public class Auditorium extends JPanel implements ActionListener{
 	JLabel[] alpha;
 	JButton[] seat;
 	ImageIcon reservation, already, number;
+	
+	JButton goPaymentButton;
 
 	
 	Auditorium(ControlTower ct){
@@ -127,6 +129,15 @@ public class Auditorium extends JPanel implements ActionListener{
 		makeSeat();
 		reservation = new ImageIcon("./images/number/reservation.PNG");
 		already = new ImageIcon("./images/number/already.PNG");
+		
+		//오른쪽 리스트
+		goPaymentButton = new JButton(new ImageIcon("./images/결제선택1.png"));
+		
+		goPaymentButton.setBounds(1010, 660, 160, 160);
+		goPaymentButton.setBackground(new Color(247,247,239));
+		
+		add(goPaymentButton);
+
 		
 		add(background);
 	}

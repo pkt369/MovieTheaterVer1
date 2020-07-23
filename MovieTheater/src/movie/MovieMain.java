@@ -16,7 +16,7 @@ public class MovieMain {
 		
 		ct.add(ct.ticketUi);
 		
-		ct.setTitle("영화예매");
+		ct.setTitle("managerAd");
 		ct.setSize(1200, 900);
 		ct.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ct.setVisible(true);
