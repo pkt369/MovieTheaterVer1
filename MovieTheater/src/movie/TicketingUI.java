@@ -70,6 +70,7 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 	
 	
 	
+	
 	TicketingUI(ControlTower ct){
 		this.ct = ct;
 		setLayout(null);

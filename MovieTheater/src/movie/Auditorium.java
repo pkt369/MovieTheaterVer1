@@ -26,7 +26,7 @@ public class Auditorium extends JPanel implements ActionListener{
 	
 	//선언하기
 	JLabel adultText, childText, PreferentialText;
-	JButton[] numBu; int pickCount = 0;
+	final JButton[] numBu; int pickCount = 0;
 	JLabel pickImage; JLabel pickMovie; JLabel TheaterName; JLabel day;
 	JLabel pickAu; JLabel seatsLeft; JLabel pickSeat;
 	JLabel time;
@@ -35,7 +35,8 @@ public class Auditorium extends JPanel implements ActionListener{
 	JButton[] seat;
 	ImageIcon reservation, already, number;
 	
-	JButton goPaymentButton;
+	JLabel howMuch; String[] howMany; int total;
+	JButton goPaymentButton; ImageIcon[] img;
 
 	
 	Auditorium(ControlTower ct){
@@ -61,8 +62,8 @@ public class Auditorium extends JPanel implements ActionListener{
 		}
 		
 		//선언하기
-		adultText = new JLabel("어른");
-		childText = new JLabel("어린이");
+		adultText = new JLabel("일반");
+		childText = new JLabel("청소년");
 		PreferentialText = new JLabel("우대");
 		
 		
@@ -131,11 +132,22 @@ public class Auditorium extends JPanel implements ActionListener{
 		already = new ImageIcon("./images/number/already.PNG");
 		
 		//오른쪽 리스트
-		goPaymentButton = new JButton(new ImageIcon("./images/결제선택1.png"));
+		howMuch = new JLabel("");
+		howMuch.setBounds(1010, 250, 200, 200);
+		howMuch.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		add(howMuch);
 		
+		howMany = new String[3];
+		howMany[0] = "";howMany[1] = "";howMany[2] = "";
+		
+		img = new ImageIcon[2];
+		img[0] = new ImageIcon("./images/결제선택1.png");
+		img[1] = new ImageIcon("./images/결제선택2.png");
+		
+		goPaymentButton = new JButton(img[0]);	
 		goPaymentButton.setBounds(1010, 660, 160, 160);
 		goPaymentButton.setBackground(new Color(247,247,239));
-		
+		goPaymentButton.addActionListener(this);
 		add(goPaymentButton);
 
 		
@@ -144,6 +156,9 @@ public class Auditorium extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(goPaymentButton) && goPaymentButton.getIcon().equals(img[1])) {
+			System.out.println("실행");
+		}
 		for(int i = 0; i < seat.length; i++) {
 			if(e.getSource().equals(seat[i])) {
 				char ch = (char)(65 + i / 20);
@@ -169,19 +184,29 @@ public class Auditorium extends JPanel implements ActionListener{
 					}
 					
 				}
-				return;
+				//버튼 변경
+				if(pickCount == 0 && !pickSeat.getText().equals("선택한 좌석: ")) {
+					goPaymentButton.setIcon(img[1]);
+				}else {
+					goPaymentButton.setIcon(img[0]);
+				}
+				return; //리턴을 해주는 이유는 밑에서 pickCount를 초기화해주기 때문이다.
+				//만약 좌석선택을 누르지않으면 초기화되는 방식.
 			}
 		}
+		
+		
 		for(int i = 0; i < numBu.length; i++) {
 			if(e.getSource().equals(numBu[i])) {
 				pickSeat.setText("선택한 좌석: ");
+				goPaymentButton.setIcon(img[0]);
 				pickCount = 0;
 				for(int j = 0; j < 220; j++) {
 					seat[j].setIcon(new ImageIcon("./images/number/" + 
 				Integer.toString(j % 20 + 1) + ".PNG"));		
 				}
 				//어른, 아이, 우대 3개로 나누기
-				if(i / 9 == 0) { //어른
+				if(i / 9 == 0) { //일반
 					for(int j = 0; j < 9; j++) {
 						numBu[j].setBackground(weakBack);
 						numBu[j].setForeground(Color.black);
@@ -203,10 +228,9 @@ public class Auditorium extends JPanel implements ActionListener{
 					numBu[i].setBackground(Color.black);
 					numBu[i].setForeground(Color.white);
 				}
-				
 			}	
-			
 		}
+
 		
 		for(int i = 0; i < numBu.length; i++) {
 			if(numBu[i].getBackground().equals(Color.black)) {
@@ -215,6 +239,37 @@ public class Auditorium extends JPanel implements ActionListener{
 				
 			}
 		}
+		total = 0;
+		howMuch.setText("");
+		for(int i = 0 ; i < 3; i++) {
+			howMany[i] = "";
+		}
+		for(int i = 0; i < 27; i++) {
+			if(numBu[i].getBackground().equals(Color.black) && !numBu[i].getText().equals("0")) {
+				if(i / 9 == 0) {
+					howMany[0] = "일반 : " + numBu[i].getText() + "명";
+					total += (Integer.parseInt(numBu[i].getText()) * 12000);
+				}else if(i / 9 == 1) {
+					howMany[1] = "청소년 : " + numBu[i].getText() + "명";
+					total += (Integer.parseInt(numBu[i].getText()) * 10000);
+				}else if(i / 9 == 2){
+					howMany[2] = "우대 : " + numBu[i].getText() + "명";
+					total += (Integer.parseInt(numBu[i].getText()) * 5000);
+				}
+			}
+		}
+		String result = "<html>";
+		for(int i = 0; i < 3; i++) {
+			if(howMany[i] != "") {
+				result += howMany[i] + "<br>";
+			}
+			if(i == 2 && total != 0) {
+				result += "최종 금액: " + total + "원 </html>"; 
+				howMuch.setText(result);
+			}
+		}
+
+		
 		
 	}
 	
