@@ -1,6 +1,7 @@
 package movie;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class ControlTower extends JFrame{
 	ManagerAdministrateMovie managerAd;
 	insertMovieInTheater theaterAdmini;
 	public Auditorium auditorium;
+	Payment payment;
 
 	
 	ControlTower(){
@@ -54,6 +56,13 @@ public class ControlTower extends JFrame{
 		}else if(panelName == "auditorium") {
 			getContentPane().removeAll();
 			getContentPane().add(auditorium);			
+			revalidate();
+			repaint();
+		}else if(panelName == "payment") {
+			getContentPane().removeAll();
+			getContentPane().add(payment);
+			getContentPane().setPreferredSize(new Dimension(1200, 900));
+			this.pack();
 			revalidate();
 			repaint();
 		}
