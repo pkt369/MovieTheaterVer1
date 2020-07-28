@@ -2,18 +2,21 @@ package movie;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class Payment extends JPanel implements ItemListener{
+public class Payment extends JPanel implements ItemListener, ActionListener{
 	ControlTower ct;
 	
 	JLabel background;
@@ -27,6 +30,8 @@ public class Payment extends JPanel implements ItemListener{
 	String[] selectString = {"신용카드", "휴대폰결제", "계좌 이체", "카카오 페이", "네이버 페이"};
 	JLabel credit; JComboBox<String> creditCard;
 	String[] creditString = {"삼성카드", "카카오카드", "sk카드", "농협카드", "국민카드", "SC제일은행", "기업카드"};
+	JButton payButton;
+	String sellSeats;
 	
 	public Payment(ControlTower ct) {
 		this.ct = ct;
@@ -50,6 +55,8 @@ public class Payment extends JPanel implements ItemListener{
 		payGroup = new ButtonGroup(); 
 		credit = new JLabel("카드종류");
 		creditCard = new JComboBox<String>(creditString);
+		payButton = new JButton(ct.imageSetSize(
+				new ImageIcon("./images/payButton.png"), 280, 120));
 		
 		//위치 지정
 		background.setBounds(0, 0, 1200, 900);
@@ -65,18 +72,21 @@ public class Payment extends JPanel implements ItemListener{
 		}
 		credit.setBounds(150, 360, 100, 50);
 		creditCard.setBounds(250, 365, 150, 40);
+		payButton.setBounds(870, 700, 280, 120);
 		
 		//백그라운드 지정
 		background.setBackground(backColor);
 		for(int i = 0; i < selectPayment.length; i++) {
 			selectPayment[i].setBackground(backColor);
 		}
+		creditCard.setBackground(backColor);
 		
 		//효과 지정
 		sale.addItemListener(this);
 		for(int i = 0; i < selectPayment.length; i++) {
 			selectPayment[i].addItemListener(this);
 		}
+		payButton.addActionListener(this);
 		
 		
 		//폰트 지정
@@ -100,6 +110,7 @@ public class Payment extends JPanel implements ItemListener{
 		price1.setHorizontalAlignment(JLabel.RIGHT);
 		price2.setHorizontalAlignment(JLabel.RIGHT);
 		price3.setHorizontalAlignment(JLabel.RIGHT);
+		payButton.setBorderPainted(false);
 		
 		
 		
@@ -111,6 +122,7 @@ public class Payment extends JPanel implements ItemListener{
 		}
 		add(credit);
 		add(creditCard);
+		add(payButton);
 		
 		add(price1);
 		add(price2);
@@ -134,6 +146,9 @@ public class Payment extends JPanel implements ItemListener{
 	public void itemStateChanged(ItemEvent e) {	
 		if(e.getSource().equals(sale)) {
 			price2.setText(getPrice(sale.getSelectedItem().toString()));
+			String str = String.valueOf(Integer.parseInt(price1.getText()) - 
+					Integer.parseInt(price2.getText()));
+			price3.setText(str);
 		}
 		credit.setVisible(false);
 		creditCard.setVisible(false);
@@ -151,5 +166,18 @@ public class Payment extends JPanel implements ItemListener{
 		}
 
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(payButton)) {
+			System.out.println("예약되었습니다.");
+			ct.thAdmini.updateTheater(ct.auditorium.pickMovie.getText(), ct.ticketUi.pickDa.getText()
+					, ct.auditorium.time.getText(), sellSeats);
+			ct.changePanel("ticketUi");
+		}
+		
+	}
+	
+	
 	
 }

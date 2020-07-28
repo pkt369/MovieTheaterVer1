@@ -122,4 +122,24 @@ public class TheaterDAO {
 		}
 		
 	}
+	public void updateTheater(String movie, String day, String time, String seat) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update theater set sellSeats = ? where movie = ? AND day = ? AND startTime = ?";
+		
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seat);
+			pstmt.setString(2, movie);
+			pstmt.setString(3, day);
+			pstmt.setString(4, time);
+			
+			pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

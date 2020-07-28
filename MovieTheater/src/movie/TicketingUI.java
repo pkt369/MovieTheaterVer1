@@ -376,11 +376,15 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 								ct.auditorium.seatsLeft.setText("남은 좌석 : 293 / 293");
 								break;
 							}
-							String[] st = new String[beforeSt.length() / 3];
-							for(int j = 0; j < beforeSt.length() / 3; j++) {	
-								st[j] = beforeSt.substring(j*3, j*3+2);
+							String[] str = beforeSt.split(" ");
+							for(int j = 0; j < str.length; j++) {
+								
+								ct.auditorium.seat[getSeatNumber(str[j])].
+								setIcon(ct.auditorium.already); //이미 예약되어있는 좌석이면 막아둔다.
 							}
-							ct.auditorium.seatsLeft.setText("남은 좌석 : " + Integer.toString(293 - beforeSt.length() / 3) + " / 293");
+							
+							 
+							ct.auditorium.seatsLeft.setText("남은 좌석 : " + Integer.toString(293 - str.length) + " / 293");
 						}
 					}
 				}
@@ -390,7 +394,12 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 		
 	}
 	
-	
+	public int getSeatNumber(String str) {
+		int alpha = ((int)str.charAt(0) - 65) * 20;
+		int num = Integer.parseInt(str.substring(1));
+		
+		return alpha + num - 1;	
+	}
 
 }
 

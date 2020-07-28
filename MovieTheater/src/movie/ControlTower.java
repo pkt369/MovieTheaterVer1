@@ -102,6 +102,15 @@ public class ControlTower extends JFrame{
 		ImageIcon reimg = new ImageIcon(img);
 		return reimg;
 	}
-	
+	public String getSellSeats(String movie, String Day, String Time) {
+		for(int i = 0; i < thList.size(); i++) {
+			if(thList.get(i).getMovie().equals(movie) && 
+					thList.get(i).getDay().equals(Day) && 
+					thList.get(i).getStartTime().equals(Time)) {
+				return thList.get(i).getSellSeats();
+			}
+		}
+		return "";
+	}
 	
 }

@@ -15,7 +15,7 @@ public class MovieMain {
 		ct.auditorium = new Auditorium(ct);
 		ct.payment = new Payment(ct);
 		
-		ct.add(ct.payment);
+		ct.add(ct.ticketUi);
 		
 		ct.setTitle("managerAd");
 		ct.setSize(1200, 900);

@@ -187,13 +187,24 @@ public class Auditorium extends JPanel implements ActionListener{
 				//버튼 변경
 				if(pickCount == 0 && !pickSeat.getText().equals("선택한 좌석: ")) {
 					goPaymentButton.setIcon(img[1]);
+					
 				}else {
 					goPaymentButton.setIcon(img[0]);
 				}
 				return; //리턴을 해주는 이유는 밑에서 pickCount를 초기화해주기 때문이다.
-				//만약 좌석선택을 누르지않으면 초기화되는 방식.
+				//만약 좌석선택을 누르지않았다면 초기화되는 방식.
 			}
 		}
+		if(e.getSource().equals(goPaymentButton) && goPaymentButton.getIcon().equals(img[1])) {
+			ct.payment.price1.setText(String.valueOf(total));
+			ct.payment.price3.setText(String.valueOf(total));
+			ct.payment.sellSeats = ct.getSellSeats(pickMovie.getText(), day.getText(), 
+					time.getText()) +
+					pickSeat.getText().substring(
+					pickSeat.getText().indexOf(":") + 2);
+			ct.changePanel("payment");
+		}
+		
 		
 		
 		for(int i = 0; i < numBu.length; i++) {
@@ -202,6 +213,9 @@ public class Auditorium extends JPanel implements ActionListener{
 				goPaymentButton.setIcon(img[0]);
 				pickCount = 0;
 				for(int j = 0; j < 220; j++) {
+					if(seat[j].getIcon().equals(already)) {
+						continue;
+					}
 					seat[j].setIcon(new ImageIcon("./images/number/" + 
 				Integer.toString(j % 20 + 1) + ".PNG"));		
 				}
