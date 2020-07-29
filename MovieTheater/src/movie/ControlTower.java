@@ -26,6 +26,8 @@ public class ControlTower extends JFrame{
 	public ArrayList<theater> thList = new ArrayList<theater>();
 	public String panelName = null;
 	
+
+	
 	
 	//화면들
 	FirstUI firstUi;
@@ -35,15 +37,20 @@ public class ControlTower extends JFrame{
 	public Auditorium auditorium;
 	Payment payment;
 	Completed completed;
+	
+	//쓰레드
+	Thread thread;
 
 	
 	ControlTower(){
 		list = admini.selectMovie();
 		thList = thAdmini.selectTheater();
-
 	}
 	
 	public void changePanel(String panelName) {
+		if(thread.isAlive()) { //메모리관리
+			thread.stop();
+		}
 		if(panelName == "firstUi") {
 			getContentPane().removeAll();
 			getContentPane().add(firstUi);
@@ -106,6 +113,8 @@ public class ControlTower extends JFrame{
 		ImageIcon reimg = new ImageIcon(img);
 		return reimg;
 	}
+	
+	
 	public String getSellSeats(String movie, String Day, String Time) {
 		for(int i = 0; i < thList.size(); i++) {
 			if(thList.get(i).getMovie().equals(movie) && 

@@ -39,6 +39,7 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 	JButton inputMovie;
 	JButton DeleteMovie;
 	JLabel result;
+	JTextField urlField;
 	
 	//극장 선언하기
 	JPanel theaterAdmini;
@@ -88,21 +89,22 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 		inputMovie = new JButton("영화 넣기");
 		DeleteMovie = new JButton("영화 삭제하기");
 		result = new JLabel("입력완료했습니다.");
-		
-		//임시 저장
+		urlField = new JTextField("url 입력");
 		
 		//좌표지정
 		AddMinMovie.setBounds(30, 50, 250, 90);
 		movieNameField.setBounds(110, 580, 300, 50);
 		movieAgeField.setBounds(480, 580, 300, 50);
-		inputMovie.setBounds(110, 670, 300, 100);
-		DeleteMovie.setBounds(480, 670, 300, 100);
+		inputMovie.setBounds(110, 730, 300, 100);
+		DeleteMovie.setBounds(480, 730, 300, 100);
 		result.setBounds(330, 520, 300, 50);
+		urlField.setBounds(110, 650, 670, 50);
 		
 		//폰트 지정
 		AddMinMovie.setFont(whiteF1);
 		movieNameField.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
 		movieAgeField.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		urlField.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
 		inputMovie.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		DeleteMovie.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		result.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -130,6 +132,7 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 		
 		//메뉴에 추가하기
 		menu.add(AddMinMovie);
+		movieAdministrate.add(urlField);
 		movieAdministrate.add(movieScroll);
 		movieAdministrate.add(result);
 		movieAdministrate.add(movieNameField);
@@ -191,7 +194,7 @@ public class ManagerAdministrateMovie extends JPanel implements ActionListener, 
 			if(movieAgeField.getText().equals("0") || movieAgeField.getText().equals("12")
 					|| movieAgeField.getText().equals("15")|| movieAgeField.getText().equals("19")) {
 				ct.admini.insertMovie(movieNameField.getText(), Integer.parseInt(movieAgeField.getText()), 
-						"a");
+						urlField.getText());
 				movieLoding();
 				result.setText("입력 완료!");
 				ct.changePanel("theaterAdmini");

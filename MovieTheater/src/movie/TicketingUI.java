@@ -382,8 +382,7 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 								ct.auditorium.seat[getSeatNumber(str[j])].
 								setIcon(ct.auditorium.already); //이미 예약되어있는 좌석이면 막아둔다.
 							}
-							
-							 
+														 
 							ct.auditorium.seatsLeft.setText("남은 좌석 : " + Integer.toString(293 - str.length) + " / 293");
 						}
 					}

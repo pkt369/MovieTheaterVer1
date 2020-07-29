@@ -2,20 +2,22 @@ package movie;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Completed extends JPanel{
+public class Completed extends JPanel implements ActionListener{
 	ControlTower ct;
 	
 	Color BackColor = new Color(241,241,229);
 	
 	JLabel BackImage;
-	JLabel finish;//예매가 완료 되었습니다.
-	JLabel pickImage;						//사진
+	JLabel finish;					//예매가 완료 되었습니다.
+	JLabel pickImage;				//사진
 	JLabel pickMovie, movieString; //선택한영화, 영화 : 
 	JLabel pickTh, theaterString;		//선택한극장, 극장 :
 	JLabel day, dayString;				//날짜 + 시간, 일시:
@@ -47,12 +49,13 @@ public class Completed extends JPanel{
 	howmuch = new JLabel();
 	completedButton = new JButton(ct.imageSetSize(
 			new ImageIcon("./images/finishButton.png"), 230, 90));
+	
 
 	BackImage.setBounds(0, 0, 1200, 60);
 	finish.setBounds(430, 110, 450, 60);
-	pickImage	.setBounds(300, 200, 180, 260);
-	movieString.setBounds(560, 190, 100, 50);
-	pickMovie.setBounds(660, 190, 300, 60);
+	pickImage.setBounds(300, 200, 180, 260);
+	movieString.setBounds(560, 190, 90, 50);
+	pickMovie.setBounds(660, 185, 300, 60);
 	theaterString.setBounds(560, 250, 300, 60);
 	pickTh.setBounds(660, 250, 300, 60);
 	dayString.setBounds(560, 310, 300, 60);
@@ -81,12 +84,24 @@ public class Completed extends JPanel{
 	howmuchString.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 	howmuch.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 	
+	completedButton.addActionListener(this);
+	
+	
+	
 	add(finish); add(pickImage); add(movieString); add(pickMovie); add(theaterString); add(pickTh); add(dayString); add(day); 
 	add(howmanyString); add(howmany); add(seatString); add(seat); add(howmuchString); add(howmuch);
 	
 	add(completedButton);
 	add(BackImage);
 	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(completedButton)) {
+			ct.dispose();
+		}
+		
 	}
 	
 

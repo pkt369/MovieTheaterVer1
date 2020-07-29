@@ -173,11 +173,29 @@ public class Payment extends JPanel implements ItemListener, ActionListener{
 			System.out.println("예약되었습니다.");
 			ct.thAdmini.updateTheater(ct.auditorium.pickMovie.getText(), ct.ticketUi.pickDa.getText()
 					, ct.auditorium.time.getText(), sellSeats);
-			ct.changePanel("ticketUi");
+			ct.completed.pickImage.setIcon(ct.imageSetSize(
+					ct.ticketUi.img, 180, 260));
+			ct.completed.pickMovie.setText(ct.auditorium.pickMovie.getText());
+			ct.completed.pickTh.setText(ct.ticketUi.pickTh.getText());
+			ct.completed.day.setText(ct.auditorium.day.getText() + "  " + ct.auditorium.time.getText());
+			ct.completed.howmany.setText(getPeople() + "명");
+			ct.completed.seat.setText(ct.auditorium.pickSeat.getText().
+					substring(ct.auditorium.pickSeat.getText().indexOf(":") + 2));
+			ct.completed.howmuch.setText(price3.getText() + "원");
+			
+			ct.changePanel("completed");
 		}
 		
 	}
-	
+	public String getPeople() {
+		int people = 0;
+		for(int i = 0; i < ct.auditorium.numBu.length;i++) {
+			if(ct.auditorium.numBu[i].getBackground().equals(Color.black)) {
+				people += Integer.parseInt(ct.auditorium.numBu[i].getText())% 9;
+			}
+		}
+		return String.valueOf(people);
+	}
 	
 	
 }

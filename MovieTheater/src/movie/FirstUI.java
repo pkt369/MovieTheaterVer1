@@ -12,18 +12,33 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-class FirstUI extends JPanel implements ActionListener{
+class FirstUI extends JPanel implements ActionListener, Runnable{
 	int width = 1200;
 	int height = 900;
 	ControlTower ct;
+	int count = 0;
 	
 	JButton ticketing;
+	ImageIcon[] adver;
+	JLabel ad;
+	JLabel background;
 
 	FirstUI(ControlTower ct){
 		this.ct = ct;
 		setLayout(null);
-		JLabel ad = new JLabel(new ImageIcon("./images/ad.jpg")); //광고
+		
+		
+		
+		adver = new ImageIcon[4];
+		for(int i = 0; i < adver.length; i++) {
+			adver[i] = ct.imageSetSize(
+					new ImageIcon("./images/adver" + i + ".jpg"), 1100, 400);
+		}
+		ad = new JLabel(adver[0]); //광고
+		background = new JLabel(new ImageIcon("./images/Firstbackground.png"));
+		
 		ad.setBounds(50, 30, 1100, 400);
+		background.setBounds(0,0,1200,900);
 		
 		ticketing = new JButton("예매하기");
 		ticketing.setBounds(50, 450, 550, 350);
@@ -31,25 +46,14 @@ class FirstUI extends JPanel implements ActionListener{
 		JButton checking = new JButton();
 		checking.setBounds(600, 450, 550, 350);
 		
-//		container = getContentPane();
-//		container.setLayout(null);
-//		
-//		
-//		container.add(ad);
-//		container.add(checking);
-//		container.add(ticketing);
 		
 		add(ad);
 		add(checking);
 		add(ticketing);
+		add(background);
 		
 		ticketing.addActionListener(this);
-		
-//		setTitle("영화예매");
-//		setSize(width, height);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setVisible(true);
-//		setLocationRelativeTo(null);
+
 	}
 
 	@Override
@@ -58,6 +62,23 @@ class FirstUI extends JPanel implements ActionListener{
 			ct.changePanel("ticketUi");
 		}
 		
+	}
+
+	@Override
+	public void run() {
+		while(true) {
+			if(count == 4) {
+				count = 0;
+			}
+			try {
+				ad.setIcon(adver[count]);
+				Thread.sleep(3000);
+				count++;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 

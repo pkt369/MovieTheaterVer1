@@ -15,8 +15,12 @@ public class MovieMain {
 		ct.auditorium = new Auditorium(ct);
 		ct.payment = new Payment(ct);
 		ct.completed = new Completed(ct);
+		ct.thread = new Thread(ct.firstUi);
 		
-		ct.add(ct.completed);
+		//스레드시작
+		ct.thread.start();
+		//화면
+		ct.add(ct.firstUi);
 		
 		ct.setTitle("managerAd");
 		ct.setSize(1200, 900);
