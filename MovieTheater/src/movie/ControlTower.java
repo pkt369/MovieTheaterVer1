@@ -34,6 +34,7 @@ public class ControlTower extends JFrame{
 	insertMovieInTheater theaterAdmini;
 	public Auditorium auditorium;
 	Payment payment;
+	Completed completed;
 
 	
 	ControlTower(){
@@ -61,8 +62,11 @@ public class ControlTower extends JFrame{
 		}else if(panelName == "payment") {
 			getContentPane().removeAll();
 			getContentPane().add(payment);
-			getContentPane().setPreferredSize(new Dimension(1200, 900));
-			this.pack();
+			revalidate();
+			repaint();
+		}else if(panelName == "completed") {
+			getContentPane().removeAll();
+			getContentPane().add(completed);
 			revalidate();
 			repaint();
 		}

@@ -198,10 +198,15 @@ public class Auditorium extends JPanel implements ActionListener{
 		if(e.getSource().equals(goPaymentButton) && goPaymentButton.getIcon().equals(img[1])) {
 			ct.payment.price1.setText(String.valueOf(total));
 			ct.payment.price3.setText(String.valueOf(total));
+			if(ct.getSellSeats(pickMovie.getText(), day.getText(), time.getText()) == null) {
+				ct.payment.sellSeats = pickSeat.getText().substring(
+						pickSeat.getText().indexOf(":") + 2);
+			}else {
 			ct.payment.sellSeats = ct.getSellSeats(pickMovie.getText(), day.getText(), 
 					time.getText()) +
 					pickSeat.getText().substring(
 					pickSeat.getText().indexOf(":") + 2);
+			}
 			ct.changePanel("payment");
 		}
 		

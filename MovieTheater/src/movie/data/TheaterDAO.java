@@ -40,7 +40,7 @@ public class TheaterDAO {
 			pstmt.setString(4, day);
 			pstmt.setString(5, startTime);
 			pstmt.setString(6, auditorium);
-			pstmt.setString(7, null);
+			pstmt.setString(7, "");
 			
 			int result = pstmt.executeUpdate();
 			
