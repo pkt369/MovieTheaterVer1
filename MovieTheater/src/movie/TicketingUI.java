@@ -231,6 +231,8 @@ public class TicketingUI extends JPanel implements ListSelectionListener, Action
 		});
 		dayPane.setBorder(null);
 		pickSeatButton.setBorder(null);
+		pickSeatButton.setFocusPainted(false);
+		pickSeatButton.setOpaque(false);
 		blackBack.setOpaque(true); //불투명하게 만듦
 		
 		

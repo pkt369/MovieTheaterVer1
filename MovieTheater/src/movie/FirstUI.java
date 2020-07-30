@@ -2,8 +2,12 @@ package movie;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +26,7 @@ class FirstUI extends JPanel implements ActionListener, Runnable{
 	ImageIcon[] adver;
 	JLabel ad;
 	JLabel background;
+	JButton checking;
 
 	FirstUI(ControlTower ct){
 		this.ct = ct;
@@ -40,12 +45,22 @@ class FirstUI extends JPanel implements ActionListener, Runnable{
 		ad.setBounds(50, 30, 1100, 400);
 		background.setBounds(0,0,1200,900);
 		
-		ticketing = new JButton("예매하기");
+		ticketing = new JButton(new ImageIcon("./images/goReservation.png"));
 		ticketing.setBounds(50, 450, 550, 350);
+		ticketing.setBackground(null);
+		ticketing.setBorderPainted(false);
+		ticketing.setOpaque(false);
+		ticketing.setContentAreaFilled(false);
 		
-		JButton checking = new JButton();
+		checking = new JButton(new ImageIcon("./images/goReservation2.png"));
 		checking.setBounds(600, 450, 550, 350);
-		
+		checking.setBackground(null);
+		checking.setBorderPainted(false);
+		checking.setOpaque(false);
+		checking.setContentAreaFilled(false);
+		checking.addActionListener(this);
+//		
+
 		
 		add(ad);
 		add(checking);
@@ -60,6 +75,13 @@ class FirstUI extends JPanel implements ActionListener, Runnable{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(ticketing)) {
 			ct.changePanel("ticketUi");
+		}else if(e.getSource().equals(checking)) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://pkt369.github.io/"));
+			} catch (IOException | URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
